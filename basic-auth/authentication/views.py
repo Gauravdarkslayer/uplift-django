@@ -31,6 +31,7 @@ def signup(request):
         return render(request,'signup.html')
     else:
         """
+            IT means request.method is POST
             MAIN SIGNUP LOGIC
         """
         print(request.POST)

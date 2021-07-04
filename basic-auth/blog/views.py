@@ -3,6 +3,8 @@ from . models import blog
 # Create your views here.
 
 def blogs(request):
+    print("here")
+    print("this is current logged in user",request.user.email)
     blogs = blog.objects.all()
     return render(request,'blogs.html',{'blogs':blogs})
 
