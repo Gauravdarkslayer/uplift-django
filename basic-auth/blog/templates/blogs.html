@@ -13,20 +13,20 @@
         <div style="background-color:bisque">{{blog.title}}
         {{blog.description}}
         <a href="update/{{blog.id}}"> update this blog</a>
-        <a href="delete/{{blog.id}}"> delete this blog</a>
-        <button onclick="confirmDelete()"> click me </button>
+        <!-- <a href="delete/{{blog.id}}"> delete this blog</a> -->
+        <button onclick="confirmDelete('{{ blog.id }}')"> click me </button>
         </div>
         <br>
     {% endfor %}
 </body>
-
 <script>
-    function confirmDelete(){
+    function confirmDelete(url){
         let result = confirm("are you sure you want to delete?")
         if(result)
-            return true;
+            window.location.href = 'delete/'+url;
         else
             return false;
     }
 </script>
+
 </html>
