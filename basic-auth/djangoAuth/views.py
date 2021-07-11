@@ -11,7 +11,7 @@ def login(request):
         username,_ =  request.POST["email"].split("@")
         user = authenticate(request,username=username,password=request.POST["password"])
         if user is not None:
-            authLogin(request,user)
+            authLogin(request,user) # it will make current user's session in browser
             context={"messages":f"Welcome sign in successfull {user}"}
 
             # return render(request,'signin.html',context=context)

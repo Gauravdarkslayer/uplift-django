@@ -1,21 +1,34 @@
 from django.shortcuts import render, redirect
 from . models import blog
-# Create your views here.
+from . forms import CreateBlog
+from django.contrib.auth.decorators import login_required
 
+
+# Create your views here.
+@login_required(login_url='/auth/login')
 def blogs(request):
     print("here")
     print("this is current logged in user",request.user.email)
-    blogs = blog.objects.all()
+    blogs = blog.objects.filter(user_id=request.user) # filter only current user blogs
     return render(request,'blogs.html',{'blogs':blogs})
 
 
 def create_blog(request):
     if request.method == 'GET':
-        return render(request,'create.html')
+        form = CreateBlog()
+        return render(request,'create.html',{'form':form})
     else:
         #### get the form data from user
-        print(request.POST)
-        blog.objects.create(title=request.POST["title"],description=request.POST["description"])
+       
+        form = CreateBlog(request.POST)
+        if form.is_valid():
+            # form.save()
+            form.cleaned_data["user_id"] = request.user
+            blog.objects.create(**form.cleaned_data)
+
+        else:
+            print(form.errors)
+        # blog.objects.create(title=request.POST["title"],description=request.POST["description"],user_id=request.user)
         return redirect('blogs')
 
 
